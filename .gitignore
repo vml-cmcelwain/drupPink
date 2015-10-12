@@ -4,6 +4,7 @@ sites/*/files
 sites/*/private
 tmp/.sass-cache
 sites/sites.php
+sites/default/settings.php
 sites/default/secret.settings.php
 *.DS_Store
 README.md

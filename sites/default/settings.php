@@ -83,11 +83,13 @@
  * webserver.  For most other drivers, you must specify a
  * username, password, host, and database name.
  *
- * Some database engines support transactions.  In order to enable
- * transaction support for a given database, set the 'transactions' key
- * to TRUE.  To disable it, set it to FALSE.  Note that the default value
- * varies by driver.  For MySQL, the default is FALSE since MyISAM tables
- * do not support transactions.
+ * Transaction support is enabled by default for all drivers that support it,
+ * including MySQL. To explicitly disable it, set the 'transactions' key to
+ * FALSE.
+ * Note that some configurations of MySQL, such as the MyISAM engine, don't
+ * support it and will proceed silently even if enabled. If you experience
+ * transaction related crashes with such configuration, set the 'transactions'
+ * key to FALSE.
  *
  * For each database, you may optionally specify multiple "target" databases.
  * A target database allows Drupal to try to send certain queries to a
@@ -210,20 +212,14 @@
  *   );
  * @endcode
  */
-$databases = array (
-  'default' => 
-  array (
-    'default' => 
-    array (
-      'database' => 'greenearth_dev',
-      'username' => 'greenearth_user',
-      'password' => 'master69',
-      'host' => 'localhost',
-      'port' => '',
-      'driver' => 'mysql',
-      'prefix' => '',
-    ),
-  ),
+$databases = array();
+$databases['default']['default'] = array(
+  'driver' => 'mysql',
+  'database' => 'aoclean',
+  'username' => 'root',
+  'password' => 'root',
+  'host' => '127.0.0.1',
+  'prefix' => '',
 );
 
 /**
@@ -256,7 +252,7 @@ $update_free_access = FALSE;
  *   $drupal_hash_salt = file_get_contents('/home/example/salt.txt');
  *
  */
-$drupal_hash_salt = '_DE3R0BnFwqaiHLyZQjU34HgmtlKTD0HZ-F-xIAFswg';
+$drupal_hash_salt = '';
 
 /**
  * Base URL (optional).
@@ -306,14 +302,26 @@ ini_set('session.gc_divisor', 100);
  * a session is deleted, authenticated users are logged out, and the contents
  * of the user's $_SESSION variable is discarded.
  */
-ini_set('session.gc_maxlifetime', 200000);
+/**
+ * Original value is: 200000
+ *
+ * Changing it to "0" makes it clear the session
+ * when the browser is closed.
+ */
+ini_set('session.gc_maxlifetime', 0);
 
 /**
  * Set session cookie lifetime (in seconds), i.e. the time from the session is
  * created to the cookie expires, i.e. when the browser is expected to discard
  * the cookie. The value 0 means "until the browser is closed".
  */
-ini_set('session.cookie_lifetime', 2000000);
+/**
+ * Original value is: 200000
+ *
+ * Changing it to "0" makes it clear the session
+ * when the browser is closed.
+ */
+ini_set('session.cookie_lifetime', 0);
 
 /**
  * If you encounter a situation where users post a large amount of text, and
@@ -447,6 +455,18 @@ ini_set('session.cookie_lifetime', 2000000);
 # $conf['js_gzip_compression'] = FALSE;
 
 /**
+ * Block caching:
+ *
+ * Block caching may not be compatible with node access modules depending on
+ * how the original block cache policy is defined by the module that provides
+ * the block. By default, Drupal therefore disables block caching when one or
+ * more modules implement hook_node_grants(). If you consider block caching to
+ * be safe on your site and want to bypass this restriction, uncomment the line
+ * below.
+ */
+# $conf['block_cache_bypass_node_grants'] = TRUE;
+
+/**
  * String overrides:
  *
  * To override specific strings on your site with or without enabling the Locale
@@ -517,10 +537,10 @@ $conf['404_fast_html'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN"
  * server response time when loading 404 error pages and prevents the 404 error
  * from being logged in the Drupal system log. In order to prevent valid pages
  * such as image styles and other generated content that may match the
- * '404_fast_html' regular expression from returning 404 errors, it is necessary
- * to add them to the '404_fast_paths_exclude' regular expression above. Make
- * sure that you understand the effects of this feature before uncommenting the
- * line below.
+ * '404_fast_paths' regular expression from returning 404 errors, it is
+ * necessary to add them to the '404_fast_paths_exclude' regular expression
+ * above. Make sure that you understand the effects of this feature before
+ * uncommenting the line below.
  */
 # drupal_fast_404();
 
@@ -566,10 +586,20 @@ $conf['404_fast_html'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN"
  */
 # $conf['allow_authorize_operations'] = FALSE;
 
+
+// On Acquia Cloud, this include file configures Drupal to use the correct
+// database in each site environment (Dev, Stage, or Prod). To use this
+// settings.php for development on your local workstation, set $db_url
+// (Drupal 5 or 6) or $databases (Drupal 7 or 8) as described in comments above.
+if (file_exists('/var/www/site-php')) {
+  require('/var/www/site-php/aoportal/aoportal-settings.inc');
+}
 /**
- * Add APC Caching.
+ * Secret settings file for local development only.
+ *
+ * This file should NEVER be committed to version control and should never exist
+ * on a non-local development machine.
  */
-$conf['cache_backends'][] = 'sites/all/modules/apc/drupal_apc_cache.inc';
-$conf['cache_class_cache'] = 'DrupalAPCCache';
-$conf['cache_class_cache_bootstrap'] = 'DrupalAPCCache';
-//$conf['apc_show_debug'] = TRUE;  // Remove the slashes to use debug mode.
+if (file_exists('./' . conf_path() . '/secret.settings.php')) {
+  require './' . conf_path() . '/secret.settings.php';
+}

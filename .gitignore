@@ -3,7 +3,7 @@ files
 sites/*/files
 sites/*/private
 tmp/.sass-cache
-docroot/sites/sites.php
-docroot/sites/default/secret.settings.php
+sites/sites.php
+sites/default/secret.settings.php
 *.DS_Store
 README.md

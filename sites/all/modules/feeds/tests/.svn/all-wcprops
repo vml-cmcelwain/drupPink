@@ -1,0 +1,137 @@
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/sanddune/!svn/ver/390/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds/tests
+END
+feeds_date_time.test
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/sanddune/!svn/ver/390/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds/tests/feeds_date_time.test
+END
+feeds_mapper_path.test
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/sanddune/!svn/ver/390/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds/tests/feeds_mapper_path.test
+END
+feeds_parser_syndication.test
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/sanddune/!svn/ver/390/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds/tests/feeds_parser_syndication.test
+END
+parser_csv.test
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/sanddune/!svn/ver/390/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds/tests/parser_csv.test
+END
+feeds_mapper_link.test
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/sanddune/!svn/ver/390/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds/tests/feeds_mapper_link.test
+END
+common_syndication_parser.test
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/sanddune/!svn/ver/390/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds/tests/common_syndication_parser.test
+END
+feeds_mapper_profile.test
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/sanddune/!svn/ver/390/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds/tests/feeds_mapper_profile.test
+END
+feeds_processor_term.test
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/sanddune/!svn/ver/390/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds/tests/feeds_processor_term.test
+END
+feeds_tests.module
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/sanddune/!svn/ver/390/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds/tests/feeds_tests.module
+END
+feeds_mapper_config.test
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/sanddune/!svn/ver/390/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds/tests/feeds_mapper_config.test
+END
+feeds_processor_user.test
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/sanddune/!svn/ver/390/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds/tests/feeds_processor_user.test
+END
+feeds_parser_sitemap.test
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/sanddune/!svn/ver/390/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds/tests/feeds_parser_sitemap.test
+END
+feeds_scheduler.test
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/sanddune/!svn/ver/390/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds/tests/feeds_scheduler.test
+END
+feeds_tests.info
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/sanddune/!svn/ver/390/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds/tests/feeds_tests.info
+END
+feeds_fetcher_file.test
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/sanddune/!svn/ver/390/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds/tests/feeds_fetcher_file.test
+END
+feeds.test
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/sanddune/!svn/ver/390/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds/tests/feeds.test
+END
+feeds_mapper_date.test
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/sanddune/!svn/ver/390/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds/tests/feeds_mapper_date.test
+END
+feeds_mapper_taxonomy.test
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/sanddune/!svn/ver/390/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds/tests/feeds_mapper_taxonomy.test
+END
+feeds_mapper_file.test
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/sanddune/!svn/ver/390/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds/tests/feeds_mapper_file.test
+END
+feeds_processor_node.test
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/sanddune/!svn/ver/390/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds/tests/feeds_processor_node.test
+END
+feeds_mapper.test
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/sanddune/!svn/ver/390/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds/tests/feeds_mapper.test
+END
+feeds_mapper_field.test
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/sanddune/!svn/ver/390/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds/tests/feeds_mapper_field.test
+END

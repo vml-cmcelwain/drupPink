@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/sanddune/!svn/ver/390/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds
+END
+LICENSE.txt
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/sanddune/!svn/ver/390/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds/LICENSE.txt
+END
+feeds.tokens.inc
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/sanddune/!svn/ver/390/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds/feeds.tokens.inc
+END
+feeds.info
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/sanddune/!svn/ver/390/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds/feeds.info
+END
+feeds.api.php
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/sanddune/!svn/ver/390/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds/feeds.api.php
+END
+CHANGELOG.txt
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/sanddune/!svn/ver/390/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds/CHANGELOG.txt
+END
+feeds.rules.inc
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/sanddune/!svn/ver/390/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds/feeds.rules.inc
+END
+feeds.module
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/sanddune/!svn/ver/390/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds/feeds.module
+END
+feeds.install
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/sanddune/!svn/ver/390/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds/feeds.install
+END
+README.txt
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/sanddune/!svn/ver/390/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds/README.txt
+END
+feeds.pages.inc
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/sanddune/!svn/ver/390/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds/feeds.pages.inc
+END
+feeds.css
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/sanddune/!svn/ver/390/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds/feeds.css
+END
+feeds.plugins.inc
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/sanddune/!svn/ver/390/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds/feeds.plugins.inc
+END

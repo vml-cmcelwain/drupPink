@@ -1,0 +1,90 @@
+name = Green Earth Cleaning Theme
+description = Theme created by <a href="http://www.lagoon.com">Digital Lagoon</a> for Green Earth. - CMC
+core = 7.x
+base theme = bootstrap
+screenshot  = screenshot.png
+
+;;;;;;;;;;;;;;;;;;;;;
+;; Regions
+;;;;;;;;;;;;;;;;;;;;;
+
+regions[navigation]          = 'Navigation'
+regions[header]              = 'Top Bar'
+regions[pickupanddelivery]   = 'Pick Up and Delivery'
+regions[slider]              = 'Slider'
+regions[slidernavigation]    = 'Slider Navigation'
+regions[hero]              = 'Hero'
+regions[telephone]           = 'Telephone'
+regions[featureleft]         = 'Feature Left'
+regions[featurecenter]       = 'Feature Center'
+regions[featureright]        = 'Feature Right'
+regions[featurevideo]        = 'Feature Video'
+regions[highlighted]         = 'Highlighted'
+regions[help]                = 'Help'
+regions[content]             = 'Content'
+regions[left_column]         = 'Half Page Left'
+regions[right_column]        = 'Half Page Right'
+regions[sidebar_first]       = 'Primary'
+regions[sidebar_second]      = 'Secondary'
+regions[tipoftheday]         = 'Tip of the Day'
+regions[footeraddress]       = 'Footer Address'
+regions[footersocial]        = 'Footer Social'
+regions[footermenu]          = 'Footer Menu'
+regions[footer]              = 'Footer'
+regions[page_top]            = 'Page Top'
+regions[page_bottom]         = 'Page Bottom'
+
+
+;;;;;;;;;;;;;;;;;;;;;
+;; Stylesheets
+;;;;;;;;;;;;;;;;;;;;;
+
+stylesheets[all][] = bootstrap/css/bootstrap.css
+stylesheets[all][] = css/style.css
+stylesheets[all][] = css/global.css
+stylesheets[all][] = css/drupaldidit.css
+stylesheets[all][] = css/forge.css
+stylesheets[all][] = css/fox.css
+
+
+
+
+; For information on choosing the desired method, please read the Drupal
+; Bootstrap sub-theme "how-to" documentation:
+; https://drupal.org/node/1978010
+
+; ;----------------------------------
+; ; METHOD 1: Bootstrap Source Files
+; ;----------------------------------
+; 
+; ;;;;;;;;;;;;;;;;;;;;;
+; ;; Scripts
+; ;;;;;;;;;;;;;;;;;;;;;
+ 
+scripts[] = 'bootstrap/js/bootstrap.min.js'
+scripts[] = 'js/parallax.min.js'
+
+; scripts[] = 'bootstrap/js/affix.js'
+; scripts[] = 'bootstrap/js/alert.js'
+; scripts[] = 'bootstrap/js/button.js'
+; scripts[] = 'bootstrap/js/carousel.js'
+; scripts[] = 'bootstrap/js/collapse.js'
+; scripts[] = 'bootstrap/js/dropdown.js'
+; scripts[] = 'bootstrap/js/modal.js'
+; scripts[] = 'bootstrap/js/tooltip.js'
+; scripts[] = 'bootstrap/js/popover.js'
+; scripts[] = 'bootstrap/js/scrollspy.js'
+; scripts[] = 'bootstrap/js/tab.js'
+; scripts[] = 'bootstrap/js/transition.js'
+;
+; ; Disable BootstrapCDN if using Bootstrap source files in your sub-theme.
+; settings[bootstrap_cdn] = ''
+
+
+; ;-------------------------
+; ; METHOD 2: Bootstrap CDN
+; ;-------------------------
+;
+; Method 2 uses BootstrapCDN, the only thing you might need to provide here
+; is overrides to Bootstrap theme settings. Copy them here from the base theme
+; to override.

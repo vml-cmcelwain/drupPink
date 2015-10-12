@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/sanddune/!svn/ver/390/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds/libraries
+END
+http_request.inc
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/sanddune/!svn/ver/390/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds/libraries/http_request.inc
+END
+ParserCSV.inc
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/sanddune/!svn/ver/390/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds/libraries/ParserCSV.inc
+END
+common_syndication_parser.inc
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/sanddune/!svn/ver/390/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds/libraries/common_syndication_parser.inc
+END
+PuSHSubscriber.inc
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/sanddune/!svn/ver/390/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds/libraries/PuSHSubscriber.inc
+END
+opml_parser.inc
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/sanddune/!svn/ver/390/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds/libraries/opml_parser.inc
+END

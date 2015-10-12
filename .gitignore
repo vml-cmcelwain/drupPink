@@ -1,0 +1,9 @@
+# Ignore paths that contain user-generated content.
+files
+sites/*/files
+sites/*/private
+tmp/.sass-cache
+docroot/sites/sites.php
+docroot/sites/default/secret.settings.php
+*.DS_Store
+README.md

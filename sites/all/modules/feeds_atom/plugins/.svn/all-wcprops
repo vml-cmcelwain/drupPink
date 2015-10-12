@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/sanddune/!svn/ver/389/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds_atom/plugins
+END
+FeedsAtomRDFParser.inc
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/sanddune/!svn/ver/389/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds_atom/plugins/FeedsAtomRDFParser.inc
+END
+FeedsAtomRDFProcessor.inc
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/sanddune/!svn/ver/389/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds_atom/plugins/FeedsAtomRDFProcessor.inc
+END

@@ -1,0 +1,12 @@
+[Thu Jan 22 2015 10:47:18 GMT-0600 (CST)] Layer "ShareBox.png": Duplicate path: ShareBox.png
+[Thu Jan 22 2015 10:47:18 GMT-0600 (CST)] Layer "shareIcon.png32": Duplicate path: shareIcon.png
+[Thu Jan 22 2015 10:47:18 GMT-0600 (CST)] Layer "ShareBox.png": Duplicate path: ShareBox.png
+[Thu Jan 22 2015 10:47:18 GMT-0600 (CST)] Layer "shareIcon.png32": Duplicate path: shareIcon.png
+[Thu Jan 22 2015 10:47:18 GMT-0600 (CST)] Layer "shareBtn.png copy": Expected end of input but "c" found.
+[Thu Jan 22 2015 10:47:18 GMT-0600 (CST)] Layer "220Blog.png copy": Expected end of input but "c" found.
+[Thu Jan 22 2015 10:47:18 GMT-0600 (CST)] Layer "shareBtn.png copy": Expected end of input but "c" found.
+[Thu Jan 22 2015 10:47:18 GMT-0600 (CST)] Layer "220Blog.png copy": Expected end of input but "c" found.
+[Thu Jan 22 2015 10:47:18 GMT-0600 (CST)] Layer "ShareBox.png": Duplicate path: ShareBox.png
+[Thu Jan 22 2015 10:47:18 GMT-0600 (CST)] Layer "shareIcon.png32": Duplicate path: shareIcon.png
+[Thu Jan 22 2015 10:47:18 GMT-0600 (CST)] Layer "shareBtn.png": Duplicate path: shareBtn.png
+[Thu Jan 22 2015 10:47:18 GMT-0600 (CST)] Layer "220Blog.png": Duplicate path: 220Blog.png

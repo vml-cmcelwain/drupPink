@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/sanddune/!svn/ver/389/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds_atom
+END
+LICENSE.txt
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/sanddune/!svn/ver/389/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds_atom/LICENSE.txt
+END
+feeds_atom.info
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/sanddune/!svn/ver/389/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds_atom/feeds_atom.info
+END
+feeds_atom.api.php
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/sanddune/!svn/ver/389/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds_atom/feeds_atom.api.php
+END
+feeds_atom.module
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/sanddune/!svn/ver/389/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds_atom/feeds_atom.module
+END
+README.txt
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/sanddune/!svn/ver/389/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds_atom/README.txt
+END
+feeds_atom.install
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/sanddune/!svn/ver/389/trunk/digitallagoon/greenearth/drupal-7.12/sites/all/modules/feeds_atom/feeds_atom.install
+END

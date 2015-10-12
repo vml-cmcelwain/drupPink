@@ -1,0 +1,454 @@
+/**
+ * This file should get overwritten if Method 1 is used. If Method 2 is chosen,
+ * remove this comment and start adding your styles to this file.
+ */
+
+#block-block-15 .block-title {
+    background-image:url('iconDryCleaning.png');
+    font-size: 23px;
+    color: white;
+    height: 55px;
+    background-repeat: no-repeat;
+    padding-top: 13px;
+    padding-left: 10px;
+    background-position-x: -8px;
+}
+#block-block-16 .block-title {
+    background-image:url('iconAlterations.png');
+    font-size: 23px;
+    color: white;
+    height: 55px;
+    background-repeat: no-repeat;
+    padding-top: 13px;
+    padding-left: 10px;
+    background-position-x: -8px;
+    margin-top: 40px;
+}
+#block-block-17 .block-title {
+    background-image:url('iconSameDay.png');
+    font-size: 23px;
+    color: white;
+    height: 55px;
+    background-repeat: no-repeat;
+    padding-top: 13px;
+    padding-left: 10px;
+    background-position-x: -8px;
+    margin-top: 40px;
+}
+#block-block-18 .block-title {
+    background-image:url('iconHousehold.png');
+    font-size: 23px;
+    color: white;
+    height: 55px;
+    background-repeat: no-repeat;
+    padding-top: 13px;
+    padding-left: 10px;
+    background-position-x: -8px;
+    margin-top: 40px;
+}
+#block-block-19 .block-title {
+    background-image:url('iconLeather.png');
+    font-size: 23px;
+    color: white;
+    height: 55px;
+    background-repeat: no-repeat;
+    padding-top: 13px;
+    padding-left: 10px;
+    background-position-x: -8px;
+    margin-top: 40px;
+}
+#block-block-20 .block-title {
+    background-image:url('iconShirt.png');
+    font-size: 23px;
+    color: white;
+    height: 55px;
+    background-repeat: no-repeat;
+    padding-top: 13px;
+    padding-left: 10px;
+    background-position-x: -8px;
+}
+#block-block-21 .block-title {
+    background-image:url('iconWedding.png');
+    font-size: 23px;
+    color: white;
+    height: 55px;
+    background-repeat: no-repeat;
+    padding-top: 13px;
+    padding-left: 10px;
+    background-position-x: -8px;
+    margin-top: 40px;
+}
+.page-node-3 .region-left-column p {
+    line-height: 25px;
+    font-size:16px;
+    padding-bottom: 40px;
+}
+.page-node-3 .region-right-column p {
+    line-height: 25px;
+    font-size:16px;
+    padding-bottom: 40px;
+}
+
+#block-block-10 .hanger {
+    float: right;
+    padding-right: 5px;
+    margin-top: 4px;
+}
+#block-block-10 p {
+    float: right;
+    font-size: 20px;
+    text-transform: none;
+    margin-bottom: 0px;
+    margin-top: 5px;
+}
+#node-4 p {
+    font-size: 15px;
+    line-height: 22px;
+}
+#block-block-14{
+    overflow: auto;
+}
+#block-block-14 .block-title {
+    display: none;
+}
+#block-block-14 img {
+    margin-top: 50px;
+  width: 100%;
+  height: auto;
+  float: left;
+}
+#block-block-14 p.ge-blue-block {
+    background-color: #00769d;
+    color: white;
+    font-size: 24px;
+    padding: 10px 25px;
+    text-align: center;
+    margin-top: 10px;
+    font-family: 'Crete Round', serif;
+    float: left;
+}
+.page-node-5 .page-header {
+    display: none;
+}
+.page-node-6 .page-header {
+    display: none;
+}
+.page-node-7 .page-header {
+    display: none;
+}
+.page-node-8 .page-header {
+    display: none;
+}
+.page-node-9 .page-header {
+    display: none;
+}
+.page-node-10 .page-header {
+    display: none;
+}
+.page-node-11 .page-header {
+    display: none;
+}
+.page-node-12 .page-header {
+    display: none;
+}
+.page-node-13 .page-header {
+    display: none;
+}
+.page-node-14 .page-header {
+    display: none;
+}
+.page-node-15 .page-header {
+    display: none;
+}
+.page-node-16 .page-header {
+    display: none;
+}
+.page-node-17 .page-header {
+    display: none;
+}
+.page-node-18 .page-header {
+    display: none;
+}
+.page-node-19 .page-header {
+    display: none;
+}
+.page-node-20 .page-header {
+    display: none;
+}
+.page-node-21 .page-header {
+    display: none;
+}
+.page-node-22 .page-header {
+    display: none;
+}
+.page-node-23 .page-header {
+    display: none;
+}
+.page-node-24 .page-header {
+    display: none;
+}
+.page-node-25 .page-header {
+    display: none;
+}
+.page-node-26 .page-header {
+    display: none;
+}
+.page-node-27 .page-header {
+    display: none;
+}
+.page-node-28 .page-header {
+    display: none;
+}
+.page-node-29 .page-header {
+    display: none;
+}
+.page-node-30 .page-header {
+    display: none;
+}
+#block-menu-menu-cleaning-tips .menu a {
+    padding: 0px !important;
+    padding-left: 3px !important;
+    color:#333;
+}
+#block-menu-menu-cleaning-tips .menu a:hover {
+    color:#00769d;
+    text-decoration: none;
+    font-weight: 600;
+    background-color:transparent;
+    border-left: solid 2px;
+  padding-left: 10px !important;
+}
+#block-menu-menu-cleaning-tips .menu a.active {
+    color:#00769d;
+    text-decoration: none;
+    font-weight: 600;
+    border-left: solid 2px;
+  padding-left: 10px !important;
+}
+#block-menu-menu-cleaning-tips .block-title {
+    font-size: 35px;
+    padding-left: 5px;
+}
+#block-menu-menu-cleaning-tips {
+    margin-top: -20px;
+}
+.serv-text-block {
+    background-color: #00769d;
+    color: white;
+    font-size: 24px !important;
+    padding: 20px 100px !important;
+    text-align: center;
+    font-family: 'Crete Round', serif;
+}
+#block-block-22 p {
+    padding-bottom: 0px;
+}
+#block-block-22 img{
+    width: 100%;
+    height: auto;
+}
+#navbar .navbar-nav {
+    padding-top: 15px;
+}
+#navbar .navbar-nav a {
+    padding: 7px 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 1.3em;
+    border-radius: 0px 10px;
+}
+#navbar .navbar-nav a.active:hover{
+    background-color: #555;
+    color: orangered;
+} 
+
+#navbar .navbar-nav a:hover {
+    background-color:orangered;
+    color: white;
+}
+#navbar .navbar-nav a.active {
+    background-color:orangered;
+    color: white;
+}
+
+.page-node-5 .field-name-body .field-items .field-item h3:first-of-type{
+    font-size: 32px;
+}
+.page-node-6 .field-name-body .field-items .field-item h3:first-of-type{
+    font-size: 32px;
+}
+.page-node-7 .field-name-body .field-items .field-item h3:first-of-type{
+    font-size: 32px;
+}
+.page-node-8 .field-name-body .field-items .field-item h3:first-of-type{
+    font-size: 32px;
+}
+.page-node-9 .field-name-body .field-items .field-item h3:first-of-type{
+    font-size: 32px;
+}
+.page-node-10 .field-name-body .field-items .field-item h3:first-of-type{
+    font-size: 32px;
+}
+.page-node-11 .field-name-body .field-items .field-item h3:first-of-type{
+    font-size: 32px;
+}
+.page-node-12 .field-name-body .field-items .field-item h3:first-of-type{
+    font-size: 32px;
+}
+.page-node-13 .field-name-body .field-items .field-item h3:first-of-type{
+    font-size: 32px;
+}
+.page-node-14 .field-name-body .field-items .field-item h3:first-of-type{
+    font-size: 32px;
+}
+.page-node-15 .field-name-body .field-items .field-item h3:first-of-type{
+    font-size: 32px;
+}
+.page-node-16 .field-name-body .field-items .field-item h3:first-of-type{
+    font-size: 32px;
+}
+.page-node-17 .field-name-body .field-items .field-item h3:first-of-type{
+    font-size: 32px;
+}
+.page-node-18 .field-name-body .field-items .field-item h3:first-of-type{
+    font-size: 32px;
+}
+.page-node-19 .field-name-body .field-items .field-item h3:first-of-type{
+    font-size: 32px;
+}
+.page-node-20 .field-name-body .field-items .field-item h3:first-of-type{
+    font-size: 32px;
+}
+.page-node-21 .field-name-body .field-items .field-item h3:first-of-type{
+    font-size: 32px;
+}
+.page-node-22 .field-name-body .field-items .field-item h3:first-of-type{
+    font-size: 32px;
+}
+.page-node-23 .field-name-body .field-items .field-item h3:first-of-type{
+    font-size: 32px;
+}
+.page-node-24 .field-name-body .field-items .field-item h3:first-of-type{
+    font-size: 32px;
+}
+.page-node-25 .field-name-body .field-items .field-item h3:first-of-type{
+    font-size: 32px;
+}
+.page-node-26 .field-name-body .field-items .field-item h3:first-of-type{
+    font-size: 32px;
+}
+.page-node-27 .field-name-body .field-items .field-item h3:first-of-type{
+    font-size: 32px;
+}
+.page-node-28 .field-name-body .field-items .field-item h3:first-of-type{
+    font-size: 32px;
+}
+.page-node-29 .field-name-body .field-items .field-item h3:first-of-type{
+    font-size: 32px;
+}
+.page-node-30 .field-name-body .field-items .field-item h3:first-of-type{
+    font-size: 32px;
+}
+.view-id-coupons .view-header{
+    text-align: right;
+  margin-bottom: 30px;
+}
+
+.view-blog-view .views-row{
+    margin-bottom: 40px;
+}
+.blogcontainer{
+    
+}
+.bc-header{
+    margin-bottom: 0px;
+}
+.bc-header a{
+    color:#0079C2;
+    font-size: 28px;
+}
+.bc-header a:hover{
+    font-weight: 600;
+    text-decoration: none;
+}
+.bc-author{
+    display: block;
+  color: gray;
+  font-size: 16px;
+  font-style: italic;
+  margin-bottom: 25px;
+}
+.blogcontainer-image{
+    
+}
+.blogcontainer-image img{
+    width: 100%;
+    height: auto;
+}
+.blogcontainer-content{
+    
+}
+.bc-body{
+    line-height: 1.5em;
+  margin-bottom: 25px;
+}
+.bc-link{
+    
+}
+.bc-link a{
+      color: #0079C2;
+  font-size: 15px;
+  margin-bottom: 20px;
+  display: block;
+  width: 100%;
+}
+.bc-link a:hover{
+    font-weight: 600;
+    text-decoration: none;
+}
+.bc-social{
+    
+}
+
+#block-block-25{
+      margin-top: -10px;
+}
+#block-block-25 ul{
+      padding: 0px;
+  margin: 0px;
+  list-style: none;
+  margin-left: 5px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+}
+#block-block-25 ul li{
+    
+}
+#block-block-25 ul li h4{
+    font-weight: 600;
+}
+#block-block-25 .terminated{
+    border-bottom: solid 1px#ccc;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

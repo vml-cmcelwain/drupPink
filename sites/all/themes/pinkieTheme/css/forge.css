@@ -1,0 +1,68 @@
+/**
+ * This file should get overwritten if Method 1 is used. If Method 2 is chosen,
+ * remove this comment and start adding your styles to this file.
+ */
+
+.page-aggregator .feed-item{
+    padding: 20px;
+    background-color: whitesmoke;
+    margin-top: 20px;
+    border: solid 1px #ccc;
+    border-radius: 5px;
+}
+.page-aggregator .feed-item .feed-item-body img{
+    float: left;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+.child-title-logo{
+    position: relative;
+    z-index: 50;
+}
+.feed-description{
+    display: none;
+}
+.feed-url{
+    display: none;
+}
+.feed-updated{
+    display: none;
+}
+
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+/* #Mobile (Landscape)
+================================================== */
+    .bodyimage {
+        min-width: 535px !important;
+        height: auto !important;
+        max-width: 535px !important;
+    }
+    .childpage .logoarea-telephone {
+        position: relative !important;
+    }
+    .childpage .navbar-header .logo {
+        display: block !important;
+        width: 250px !important;
+        margin: 0 auto !important;
+        text-align: center !important;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+/*  #Mobile (Portrait)
+================================================== */
+    .bodyimage {
+        min-width: 290px !important;
+        height: auto !important;
+        max-width: 290px !important;
+    }
+    .childpage .logoarea-telephone {
+        position: relative !important;
+    }
+    .childpage .navbar-header .logo {
+        display: block !important;
+        width: 250px !important;
+        margin: 0 auto !important;
+        text-align: center !important;
+    }
+}

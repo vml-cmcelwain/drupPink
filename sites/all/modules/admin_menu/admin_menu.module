@@ -469,7 +469,7 @@ function admin_menu_output() {
       $classes .= ' overlay-displace-top';
     }
     // @todo Always output container to harden JS-less support.
-    $content['#prefix'] = '<div id="admin-menu" class="' . $classes . '"><div id="admin-menu-wrapper" style="padding-left: 350px;position: relative;"><img src="/sites/all/modules/admin_menu/images/sitemgmt.png" style="position: absolute;left: 2px;top: 2px;"/>';
+    $content['#prefix'] = '<div id="admin-menu" class="' . $classes . '"><div id="admin-menu-wrapper" style="padding-left: 250px;position: relative;min-height: 30px;padding-top:3px;"><img src="/sites/all/modules/admin_menu/images/sitemgmt.png" style="position: absolute;left: 2px;top: 2px;"/>';
     $content['#suffix'] = '</div></div>';
 
     // Load menu builder functions.

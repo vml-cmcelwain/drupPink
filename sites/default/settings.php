@@ -212,14 +212,20 @@
  *   );
  * @endcode
  */
-$databases = array();
-$databases['default']['default'] = array(
-  'driver' => 'mysql',
-  'database' => 'aoclean',
-  'username' => 'root',
-  'password' => 'root',
-  'host' => '127.0.0.1',
-  'prefix' => '',
+$databases = array (
+  'default' => 
+  array (
+    'default' => 
+    array (
+      'database' => 'pinkieData',
+      'username' => 'root',
+      'password' => 'root',
+      'host' => 'localhost',
+      'port' => '',
+      'driver' => 'mysql',
+      'prefix' => 'drupink_',
+    ),
+  ),
 );
 
 /**
@@ -252,7 +258,7 @@ $update_free_access = FALSE;
  *   $drupal_hash_salt = file_get_contents('/home/example/salt.txt');
  *
  */
-$drupal_hash_salt = '';
+$drupal_hash_salt = 'uRvOjwssc7Qm2diAlylHsLma-TFrN8NP6R3dfFX6uBk';
 
 /**
  * Base URL (optional).
@@ -302,26 +308,14 @@ ini_set('session.gc_divisor', 100);
  * a session is deleted, authenticated users are logged out, and the contents
  * of the user's $_SESSION variable is discarded.
  */
-/**
- * Original value is: 200000
- *
- * Changing it to "0" makes it clear the session
- * when the browser is closed.
- */
-ini_set('session.gc_maxlifetime', 0);
+ini_set('session.gc_maxlifetime', 200000);
 
 /**
  * Set session cookie lifetime (in seconds), i.e. the time from the session is
  * created to the cookie expires, i.e. when the browser is expected to discard
  * the cookie. The value 0 means "until the browser is closed".
  */
-/**
- * Original value is: 200000
- *
- * Changing it to "0" makes it clear the session
- * when the browser is closed.
- */
-ini_set('session.cookie_lifetime', 0);
+ini_set('session.cookie_lifetime', 2000000);
 
 /**
  * If you encounter a situation where users post a large amount of text, and
@@ -585,21 +579,3 @@ $conf['404_fast_html'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN"
  * Remove the leading hash signs to disable.
  */
 # $conf['allow_authorize_operations'] = FALSE;
-
-
-// On Acquia Cloud, this include file configures Drupal to use the correct
-// database in each site environment (Dev, Stage, or Prod). To use this
-// settings.php for development on your local workstation, set $db_url
-// (Drupal 5 or 6) or $databases (Drupal 7 or 8) as described in comments above.
-if (file_exists('/var/www/site-php')) {
-  require('/var/www/site-php/aoportal/aoportal-settings.inc');
-}
-/**
- * Secret settings file for local development only.
- *
- * This file should NEVER be committed to version control and should never exist
- * on a non-local development machine.
- */
-if (file_exists('./' . conf_path() . '/secret.settings.php')) {
-  require './' . conf_path() . '/secret.settings.php';
-}

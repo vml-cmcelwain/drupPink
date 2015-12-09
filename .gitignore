@@ -1,6 +1,4 @@
 # Ignore paths that contain user-generated content.
-files
-sites/*/private
 tmp/.sass-cache
 sites/default/secret.settings.php
 *.DS_Store

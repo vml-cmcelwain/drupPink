@@ -51,7 +51,14 @@ function kwresearch_schema() {
         'not null' => TRUE,
         'default' => '',
         'description' => 'subject keyword.',
-      ), //keyword  
+      ), //keyword
+      'keyword_stem' => array(
+        'type' => 'varchar',
+        'length' => '255',
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'subject keyword stem.',
+      ), //keyword_stem
       'word_count' => array(
         'type' => 'int',
         'size' => 'tiny',

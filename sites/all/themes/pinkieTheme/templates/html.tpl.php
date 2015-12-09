@@ -57,8 +57,9 @@
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
   <?php print $scripts; ?>
-  <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,400italic,600italic,700italic|Crete+Round|Oswald' rel='stylesheet' type='text/css'>
-  <script src="/sites/all/themes/greenearth/js/parallax.min.js"></script>
+  <link href='https://fonts.googleapis.com/css?family=Rufina:400,700|Sintony|Meddon' rel='stylesheet' type='text/css'>
+  <script src="/sites/all/themes/pinkieTheme/js/parallax.min.js"></script>
+  <link rel="stylesheet" href="/sites/all/themes/pinkieTheme/js/animate/css/animations.css">
 </head>
 <body class="<?php print $classes; ?>" <?php print $attributes;?>>
   <div id="skip-link">
@@ -67,5 +68,6 @@
   <?php print $page_top; ?>
   <?php print $page; ?>
   <?php print $page_bottom; ?>
+  <script src='/sites/all/themes/pinkieTheme/js/animate/js/css3-animate-it.js'></script>
 </body>
 </html>

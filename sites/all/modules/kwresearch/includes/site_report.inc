@@ -80,6 +80,12 @@ function kwresearch_keywords_list_page($mode = 'site') {
       'field' => 'k.page_count',
     ),
   );
+  if (module_exists('linkintel')) {
+    $header[] = array(
+      'data' => t('Link target'),
+      'field' => 'r.path',      
+    );
+  }
   if (is_array($data_options)) {
     foreach ($data_options as $k => $v) {
       $f = $k;
@@ -169,6 +175,9 @@ function kwresearch_keywords_list_page($mode = 'site') {
         'data' => l(number_format($values['page_count']), 'admin/structure/kwresearch/keyword_pages/' . $values['kid'], array('query' => array('destination' => 'admin/structure/kwresearch/keyword_list'))),
         'class' => array('page_count'),
       );
+      if (module_exists('linkintel')) {
+        $row[] = (!isset($values['link_request_path'])) ? '-' : l($values['link_request_path'], $values['link_request_path']);
+      }
       foreach ($data_options as $k => $v) {
         if ($v) {
           $values['_meta'] = $analysis['meta'];
@@ -204,9 +213,9 @@ function kwresearch_keywords_list_page($mode = 'site') {
     'attributes' => array('id' => 'kwresearch-site-keywords')
   );
   $output .= theme('table', $vars);
-  $output .= theme('pager', array('tags' => array()));
+  //pager_default_initialize($total, 1, $element = 0);
+  $output .= theme('pager');
   $site_priority_options = kwresearch_get_priority_options();
-
   drupal_add_js(
     array('kwresearch' => array(
       'form' => 'admin_keyword_list',

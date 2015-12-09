@@ -393,14 +393,14 @@ var kwresearch = kwresearch || {};
 		kwresearch_toggle_pagekw_keyword: function(keyword, add, keywordns, priority) {
 		  
 		  // update sync vocabulary
-		  v = $('#edit-fields-' + Drupal.settings.kwresearch.keyword_sync_vocabulary + '-und').val();
+		  v = $('#edit-' + Drupal.settings.kwresearch.sync_vocab_field).val();
 		  if (add) {    
 		    nv = v + (v ? ', ' : '') + keyword;    
 		  }
 		  else {
 		    nv = $$.kwresearch_remove_phrase_from_list(keyword, v);
 		  }
-		  $('#edit-fields-' + Drupal.settings.kwresearch.keyword_sync_vocabulary + '-und').val(nv);
+		  $('#edit-' + Drupal.settings.kwresearch.sync_vocab_field).val(nv);
 		  
 		  // do ajax call to store in database
 		  var data = { 
@@ -443,14 +443,14 @@ var kwresearch = kwresearch || {};
 		},
 
 		kwresearch_toggle_vocab_keyword: function(keyword, add, theLink) {
-		  v = $('#edit-fields-' + Drupal.settings.kwresearch.keyword_sync_vocabulary + '-und').val();
+		  v = $('#edit-' + Drupal.settings.kwresearch.sync_vocab_field).val();
 		  if (add) {    
 		    nv = v + (v ? ', ' : '') + keyword;    
 		  }
 		  else {
 		    nv = $$.kwresearch_remove_phrase_from_list(keyword, v);
 		  }
-		  $('#edit-fields-' + Drupal.settings.kwresearch.keyword_sync_vocabulary + '-und').val(nv);
+		  $('#edit-' + Drupal.settings.kwresearch.sync_vocab_field).val(nv);
 		  $(theLink).replaceWith($$.kwresearch_get_toggle_button(keyword, 'vocab'));
 		  return false;
 		},

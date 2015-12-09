@@ -1,11 +1,11 @@
 name = "Keyword Research Google"
 description = "Provides integration of Google AdWords Keyword Tool data for Keyword Research."
-package = Keyword Research
+package = SEO
 dependencies[] = kwresearch
 core = 7.x
-; Information added by drupal.org packaging script on 2012-01-11
-version = "7.x-1.0-alpha3"
+; Information added by drupal.org packaging script on 2013-06-17
+version = "7.x-1.0-alpha4"
 core = "7.x"
 project = "kwresearch"
-datestamp = "1326321040"
+datestamp = "1371477953"
 

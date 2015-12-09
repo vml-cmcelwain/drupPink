@@ -3,8 +3,10 @@
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
-          <?php if (!empty($site_name)): ?>
-            <a class="name navbar-brand rel child-title-logo" href="<?php echo $GLOBALS['base_url']; ?>" title="<?php print t('Home'); ?>"><?php print $site_name; ?></a>
+          <?php if ($logo): ?>
+            <a class="logo navbar-btn" href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>">
+              <img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" />
+            </a>
           <?php endif; ?>
           <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -30,63 +32,66 @@
     </nav>
 <!-- end area -->
 
-<!-- pickup and delivery area -->
-    <div class="pickupanddelivery">
-      <div class="container">
-        <!-- pickup and delivery block goes here -->
-        <?php print render($page['pickupanddelivery']); ?>
-        <!--Free Pickup and Delivery, Sign Up or Schedule-->
-      </div>
-    </div>
-<!-- end area -->
-
 <!-- slider area -->
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
-        <!-- slider goes here -->
-        <div class="jumbotron-vertical">
-          <!--<img src="img/slider1.png"/>-->
-          <?php print render($page['slider']); ?>
+      <video autoplay id="bgvid" loop>
+        <!-- WCAG general accessibility recommendation is that media such as background video play through only once. Loop turned on for the purposes of illustration; if removed, the end of the video will fade in the same way created by pressing the "Pause" button  -->
+        <source src="/sites/all/themes/pinkieTheme/_resources/lightbgmov.mp4" type="video/mp4">
+        <source src="/sites/all/themes/pinkieTheme/_resources/lightbgmov.webm" type="video/webm">
+      </video>
+      <div class="bgvidoverlay">
+        <!-- simple opacity overlay for video element -->
+      </div>
+      <div class="logoarea">
+        <div class="container">
+          <!-- top featured -->
+          <div class="row">
+            <div class="col-md-4 popular-0 popular-each">
+              <div class="popular-wrapper background-pink">
+                <?php print render($page['popularzero']); ?>
+              </div>
+            </div>
+            <div class="col-md-4 popular-1 popular-each">
+              <div class="popular-wrapper background-pink">
+                <?php print render($page['popularone']); ?>
+              </div>
+            </div>
+            <div class="col-md-4 popular-2 popular-each">
+              <div class="popular-wrapper background-pink">
+                <?php print render($page['populartwo']); ?>
+              </div>
+            </div>
+          </div>
         </div>
-    </div>
-    <div class="jumbotron-control">
-      <div class="container">
-        <!-- navigation for slider goes here -->
-        <?php print render($page['slidernavigation']); ?>
       </div>
     </div>
-    <div class="logoarea background-gray">
+    
+<!-- end area -->
+
+<!-- collage area -->
+    <div class="collage background-truewhite">
       <div class="container">
-        <!-- logo goes here -->
-        <?php if ($logo): ?>
-          <a class="logo navbar-btn" href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>">
-            <img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" />
-          </a>
-        <?php endif; ?>  
-        <div class="logoarea-telephone">
-          <h3 class="orange"><?php print render($page['telephone']); ?></h3>
+        <div class="row">
+          <?php print render($page['collage']); ?>
         </div>
       </div>
     </div>
 <!-- end area -->
 
 <!-- parallax one area -->
-    <div class="parallax-window plaxone" data-parallax="scroll" data-image-src="/sites/all/themes/tgbsTheme/images/para1.png">
+    <div class="parallax-window plaxone" data-parallax="scroll" data-image-src="/sites/all/themes/pinkieTheme/images/214.jpeg">
       <!-- parallax section goes here -->
     </div>
 <!-- end area -->
 
 <!-- features area -->
-    <div class="features background-gray">
+    <div class="features background-pattern">
       <div class="container">
         <div class="row">
           <div class="col-md-4 feature-0 feature-each">
             <!-- feature one -->
             <?php print render($page['featureleft']); ?>
-            <!--<img src="img/home1.png"/>
-            <h3>Heading</h3>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>-->
           </div>
           <div class="col-md-4 feature-1 feature-each">
             <!-- feature two -->
@@ -102,9 +107,9 @@
 <!-- end area -->
 
 <!-- content area -->
-    <div class="main-content background-darkgray">
+    <div class="main-content background-truewhite">
       <h1 class="main-content-h1 limegreen background-pattern">
-        A Little About The Tulsa Glass Blowing School
+        Pinkie Couture
       </h1>
       <div class="container">
           <div class="row">
@@ -146,13 +151,13 @@
 <!-- end area -->    
 
 <!-- parallax two area -->    
-    <div class="parallax-window plaxtwo white" data-parallax="scroll" data-image-src="/sites/all/themes/tgbsTheme/images/para2.png">
+    <div class="parallax-window plaxtwo white" data-parallax="scroll" data-image-src="/sites/all/themes/pinkieTheme/images/214.jpeg">
       <!-- parallax section goes here -->
       <div class="container">
         <div class="row">
           <div class="col-md-4">
             <div class="tipofthedayholder">
-              <img src="/sites/all/themes/tgbsTheme/images/tipoftheday.png"/>
+              
             </div>
           </div>
           <div class="col-md-8">
@@ -168,7 +173,7 @@
 <!-- end area -->
 
 <!-- footer area -->
-    <div class="prefooter background-gray">
+    <div class="prefooter background-truewhite">
       <div class="container">
         <div class="row">
           <div class="col-md-4">
@@ -194,7 +199,7 @@
             <h2 class="signup">Sign Up:</h2>
             <?php print render($page['footerform']); ?>
             <?php print render($page['footersocial']); ?>
-            <!--<ul class="prefooter-list-1">
+            <ul class="prefooter-list-1">
               <li class="social-icon-0">
                 <a href="#">Facebook</a>
               </li>
@@ -210,7 +215,7 @@
               <li class="social-icon-4">
                 <a href="#">Email</a>
               </li>
-            </ul>-->
+            </ul>
           </div>
         </div>
       </div>
@@ -222,10 +227,11 @@
       <div class="container">
         <div class="row">
           <div class="col-md-6">
-            <p class="minitext darkgray">Copyright &copy; <?php echo date('Y'); ?> <?php if (!empty($site_name)): ?><?php print $site_name; ?><?php endif; ?>. All Rights Reserved.</p>
+            <p class="minitext darkgray">Copyright &copy; <?php echo date('Y'); ?> Pinkie Couture. All Rights Reserved.</p>
           </div>
           <div class="col-md-6">
-            <p class="minitext darkgray">Website Developed by <a href="mailto:janetduvall@tulsaglassblowing.org"><img src="/sites/all/themes/tgbsTheme/images/SIG.png"/></a></p>
+            <p class="minitext darkgray">Website Developed by <a href="mailto:janetduvall@tulsaglassblowing.org"><img src="/sites/all/themes/pinkieTheme/images/SIG.png"/></a></p>
+            <p><img src="/sites/all/themes/pinkieTheme/images/poweredbysheerz.png" style="width: 200px;float: right;margin: 10px 0px;"/></p>
           </div>
         </div>
       </div>
@@ -243,3 +249,30 @@
     </div>
 <!-- end area -->
 </div>
+
+<script type="text/javascript">
+  jQuery(function($) {
+    var riderclass = $('.feature-post-share');
+    $(riderclass).each(function(){
+      $('.sheerzicon').fadeIn('slow');
+      if ($(this).hasClass('All')) {
+        console.log('Shared to All...');
+        $(this).find('.pinteresticon').show();
+        $(this).find('.facebookicon').show();
+        $(this).find('.instagramicon').show();
+        $(this).find('.twittericon').show();
+      }
+      else if ($(this).hasClass('Pinterest')) {
+        $(this).find('.pinteresticon').show();
+      }
+      else if ($(this).hasClass('Facebook')) {
+        $(this).find('.facebookicon').show();
+      }
+      else if ($(this).hasClass('Twitter')) {
+        $(this).find('.twittericon').show();
+      }
+      else{
+      }
+    });
+  });
+</script>

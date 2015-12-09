@@ -108,8 +108,8 @@ function kwresearch_admin_settings($form, &$form_state) {
 
   if (is_array($vocabs) && (count($vocabs) > 0)) {
     foreach ($vocabs as $vid => $v) {
-      $options[$vid] = $v->name;
-      $options2[$vid] = $v->name;
+      $options[$v->machine_name] = $v->name;
+      $options2[$v->machine_name] = $v->name;
     }
     $form['vocab']['kwresearch_keyword_sync_vocabulary'] = array(
       '#type' => 'select',
@@ -289,7 +289,9 @@ function kwresearch_site_keywords_edit_form_submit($form, &$form_state) {
   $keyword_obj->value = (float) $form_state['values']['value'];
   $update_stats = ($form_state['values']['op'] == t('Save & update stats'));
 
-  kwresearch_save_site_keyword($keyword, $kid, $keyword_obj, $update_stats);
+   $kid = kwresearch_save_site_keyword($keyword, $kid, $keyword_obj, $update_stats);
+   // save kid incase other modules need it
+   $form_state['values']['kid'] = $kid;
 
   if (!$kid) {
     drupal_set_message(t('Site keyword <em>@keyword</em> has been added.',  
@@ -326,14 +328,39 @@ function kwresearch_site_keywords_import($kid = 'add') {
  * @param str $keyword
  */
 function kwresearch_site_keywords_import_form($form, $form_state, $keyword) {
-
   $options = kwresearch_get_priority_options();
   $form['import_data'] = array(
     '#type' => 'textarea',
     '#title' => t('Import data'),
     '#description' => t('Paste in a list of keywords using the format "keyword,priority,value". Each keyword should be a new line. Priority and value values are optional.'),
   );
-
+  
+  $form['advanced'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Advanced'),
+    '#description' => t('Advanced import settings'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+  $form['advanced']['delineator'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Delineator'),
+    '#description' => t('Set the character(2) that values are seperated by.'),
+    '#size' => 4,
+    '#default_value' => ',',
+  );
+  $options = array(
+    'priority' => t('Priority'),
+    'value' => t('Value'),
+  );
+  $form['advanced']['add_fields'] = array(
+    '#type' => 'checkboxes',
+    '#title' => t('Additional fields'),
+    '#description' => t('The first item in each line must be the keyword. Use the checkboxes to indicate where to map additional field values.'),
+    '#options' => $options,
+    '#default_value' => array('priority'),
+  );
+  
   $form['save'] = array(
     '#type' => 'submit',
     '#value' => t('Add keywords to site list'),
@@ -363,16 +390,42 @@ function kwresearch_site_keywords_import_form_validate($form, &$form_state) {
 function kwresearch_site_keywords_import_form_submit($form, &$form_state) {
   global $user;
   $lines = explode("\n", $form_state['values']['import_data']);
+  $add_fields = $form_state['values']['add_fields'];
+  $delineator = $form_state['values']['delineator'];
   $imported = 0;
+//dsm($form_state);
   foreach ($lines as $line) {
-    $a = explode(",", $line);
-    $priority = isset($a[1]) ? $a[1] : NULL;
-    $value = isset($a[2]) ? $a[2] : NULL;
-
+    $delineator = str_replace("\\t", "\t", $delineator);
+    $a = explode($delineator, $line);
+    
     $keyword = drupal_strtolower(trim($a[0]));
-    if (!$keyword) {
+    if (!$keyword || substr($keyword, 0, 1) == '#') {
       continue;
     }
+    
+    $i = 1;
+    $priority = NULL;
+    if ($add_fields['priority']) {      
+      $priority = isset($a[$i]) ? $a[$i] : NULL;
+      $i++;
+    }
+    $value = NULL;
+    if ($add_fields['value']) {      
+      $value = isset($a[$i]) ? $a[$i] : NULL;
+      $i++;
+    }
+    // TODO: tight coupling issue with linkintel module, decouple back to linkintel
+    $link_path = NULL;
+    if (!empty($add_fields['link_path'])) {      
+      $link_path = isset($a[$i]) ? trim($a[$i]) : NULL;
+      $i++;
+    }
+    $link_priority = NULL;
+    if (!empty($add_fields['link_priority'])) {      
+      $link_priority = isset($a[$i]) ? trim($a[$i]) : NULL;
+      $i++;
+    }
+
     $keyword_obj = new stdClass();
 
     $set = '';
@@ -390,7 +443,19 @@ function kwresearch_site_keywords_import_form_submit($form, &$form_state) {
     if ($value) {
       $keyword_obj->value = (float) $value;
     }
-    kwresearch_save_site_keyword($keyword, NULL, $keyword_obj);
+    $kid = kwresearch_save_site_keyword($keyword, NULL, $keyword_obj);
+    // save linkintel request if enabled
+    if ($link_path) {
+      $request = new stdClass;
+      $request->attributes = array();
+      
+      $request->kid = $kid;
+      $request->path = linkintel_reduce_path($link_path);
+      if ($link_priority) {
+        $request->priority = $link_priority;
+      }
+      linkintel_request_save($request);
+    }
     $imported++;
   }
   drupal_set_message(t('@imported keywords were imported.', 
@@ -408,12 +473,18 @@ function kwresearch_site_keywords_import_form_submit($form, &$form_state) {
  */
 function kwresearch_page_keywords_edit($pid, $kid = 'add') {
   if ($kid > 0) {
+    /*
     $sql = '
       SELECT * 
       FROM {kwresearch_keyword}
       WHERE kid = %d
     ';
     $keyword = db_fetch_object(db_query($sql, $kid));
+    */
+    $query = db_select('kwresearch_keyword', 'k')
+      ->fields('k')
+      ->condition('kid', $kid);
+    $keyword = $query->execute()->fetchObject();
     drupal_set_title(t('Edit page keyword'));
   }
   if (!$keyword->keyword) {
@@ -590,6 +661,12 @@ function kwresearch_keyword_pages_page($kid) {
   $sql = $sql . $tablesort;
   $result = pager_query($sql, 100, 0, NULL, $kid);
   */
+  
+  $lo = array(
+    'attributes' => array(
+      'query' => array('destination' => 'destination=admin/structure/kwresearch/keywords_pages'),
+    ),
+  ); 
 
   $priorities = kwresearch_get_priority_options();
   while ($r = $result->fetchObject()) {
@@ -602,10 +679,10 @@ function kwresearch_keyword_pages_page($kid) {
         l(drupal_get_path_alias($r->path), $r->path),
         l($r->nid, 'node/' . $r->nid),
         $priorities[$r->priority],
-        l(t('keywords'), 'admin/structure/kwresearch/page_keywords/' . $r->nid, array('query' => 'destination=admin/structure/kwresearch/keywords_pages')),
+        l(t('keywords'), 'admin/structure/kwresearch/page_keywords/' . $r->nid, $lo),
       ),
       // Attributes for tr
-      'class' => "kwresearch",
+      'class' => array("kwresearch"),
     );
   }
 
@@ -615,9 +692,13 @@ function kwresearch_keyword_pages_page($kid) {
         'colspan' => count($header),
       ));
   }
-
-  $output .= theme('table', array('header' => $header, 'rows' => $rows, 'attributes' => array('id' => 'kwresearch-site-keywords')));
-  $output .= theme('pager', array('tags' => NULL, 'element' => 0));
+  $vars = array(
+    'header' => $header, 
+    'rows' => $rows, 
+    'attributes' => array('id' => 'kwresearch-site-keywords'),
+  );
+  $output .= theme('table', $vars);
+  //$output .= theme('pager', array('tags' => NULL, 'element' => 0));
 
   return $output;
 }

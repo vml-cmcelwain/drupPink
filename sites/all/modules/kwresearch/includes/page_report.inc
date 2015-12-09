@@ -13,6 +13,7 @@
 function kwresearch_page_keywords_page($pid, $mode = NULL) {
   drupal_add_css(drupal_get_path('module', 'kwresearch') . '/kwresearch.css');
   kwresearch_set_admin_theme();
+  $query = db_select('kwresearch_page_keyword', 'pk');
   drupal_set_title('Page keywords');
   if ($mode == 'node') {
     $pid = $pid->nid;
@@ -20,11 +21,11 @@ function kwresearch_page_keywords_page($pid, $mode = NULL) {
   if ($pid > 0) {
     $node = node_load($pid);
     $path = 'node/' . $pid;
-    $where = 'nid = %d';
+    $query->condition('pk.nid', $pid);
   }
   else {
     $path = $pid;
-    $where = 'path = "%s"';
+    $query->condition('pk.path', $pid);
   }
   $output = t('Page: !page', 
     array(
@@ -46,10 +47,10 @@ function kwresearch_page_keywords_page($pid, $mode = NULL) {
       'field' => 'pk.priority',
       'sort' => 'desc',
     ),
-    array(
-      'data' => t('Set by'),
-      'field' => 'up.name',
-    ),
+    //array(
+    //  'data' => t('Set by'),
+    //  'field' => 'up.name',
+    //),
     array(
       'data' => t('Site priority'),
       'field' => 'k.priority',
@@ -58,16 +59,26 @@ function kwresearch_page_keywords_page($pid, $mode = NULL) {
       'data' => t('Value'),
       'field' => 'k.value',
     ),
-    array(
-      'data' => t('Set by'),
-      'field' => 'u.name',
-    ),
-    array(
+    //array(
+    //  'data' => t('Set by'),
+    //  'field' => 'u.name',
+    //),
+  );
+  
+  $linkintel_exists = module_exists('linkintel');
+  if ($linkintel_exists) {
+    $header[] = array(
+      'data' => t('Link target'),
+      //'field' => 'k.value',
+    ); 
+    $l = $query->leftJoin('linkintel_request', 'l', "l.kid = pk.kid");
+    $query->addField('l', 'path', 'link_target_path');   
+  }
+  $header[] =  array(
       'data' => t('Total Daily'),
       'field' => 'k.daily_volume',
-    ),
-    array('data' => t('Operations')),
-  );
+    );
+  $header[] = array('data' => t('Operations'));
 
   /*
   $sql = '
@@ -83,7 +94,6 @@ function kwresearch_page_keywords_page($pid, $mode = NULL) {
   $result = pager_query($sql, 100, 0, NULL, $pid);
   */
   
-  $query = db_select('kwresearch_page_keyword', 'pk');
   $k  = $query->innerJoin('kwresearch_keyword', 'k', '%alias.kid = pk.kid');
   $u  = $query->leftJoin('users', 'u', '%alias.uid = k.uid');
   $up = $query->leftJoin('users', 'up', '%alias.uid = pk.uid');
@@ -105,23 +115,35 @@ function kwresearch_page_keywords_page($pid, $mode = NULL) {
   if ($mode == 'node') {
     $dest = 'node/' . $pid . '/kwresearch';
   }
+  $lo = array('query' => array('destination' => $dest)); 
+  $lo2 = $lo;
+  $lo2['query']['link_request_url'] = $path;
+  if (isset($node->title)) {
+    $lo2['query']['link_request_title'] = $node->title;
+  }
   while ($r = $result->fetchObject()) {
-
-    $rows[] = array(
+    $ops = l(t('edit page keyword'), 'admin/structure/kwresearch/page_keywords_edit/' . $pid . '/' . $r->kid, $lo)
+      . ' | ' . l(t('edit keyword'), 'admin/structure/kwresearch/keyword_list/edit/' . $r->kid, $lo);
+    $row = array(
       'data' => array(
         // Cells
         check_plain($r->keyword),
         $priorities[$r->page_priority],
-        ($r->page_uid > 0) ? l($r->page_username, 'user/' . $r->page_uid) : '-',
+        //($r->page_uid > 0) ? l($r->page_username, 'user/' . $r->page_uid) : '-',
         ($r->priority > 0) ? $priorities[$r->priority] : '-',
         ($r->value >= 0) ?  t('$') . number_format($r->value, 2) : '-',
-        ($r->uid > 0) ? l($r->username, 'user/' . $r->uid) : '-',
-        ($r->daily_volume >= 0) ? number_format($r->daily_volume) : '-',
-        l(t('edit'), 'admin/structure/kwresearch/page_keywords_edit/' . $pid . '/' . $r->kid, array('query' => array('destination' => $dest))),
+        //($r->uid > 0) ? l($r->username, 'user/' . $r->uid) : '-',
       ),
-      // Attributes for tr
       'class' => array('kwresearch'),
     );
+    if ($linkintel_exists) {
+      $row['data'][] = (!isset($r->link_target_path)) ? '-' : (($r->link_target_path == $path) ? 'this' : l($r->link_target_path, $r->link_target_path));
+      $ops .= ' | ' . l(t('set link request'), 'admin/structure/kwresearch/keyword_list/edit/' . $r->kid, $lo2);
+    }
+    $row['data'][] = ($r->daily_volume >= 0) ? number_format($r->daily_volume) : '-';
+    $row['data'][] = $ops;
+
+    $rows[] = $row;
   }
 
   if (!$rows) {
@@ -138,7 +160,7 @@ function kwresearch_page_keywords_page($pid, $mode = NULL) {
   $output .= theme('table', $vars);
   $output .= theme('pager', array('tags' => NULL, 'element' => 0));
 
-  $output .= l(t('Add page keyword'), 'admin/structure/kwresearch/page_keywords_edit/' . $pid, array('query' => array('destination' => $dest)));
+  $output .= l(t('Add page keyword'), 'admin/structure/kwresearch/page_keywords_edit/' . $pid, $lo);
 
   return $output;
 }

@@ -131,9 +131,9 @@ function kwresearch_menu() {
     'type' => MENU_CALLBACK,
     'file' => 'kwresearch.admin.inc',
   );
-  $items['admin/config/search/kwresearch'] = array(
+  $items['admin/config/content/kwresearch'] = array(
     'title' => t('Keyword research'),
-    'description' => 'Analize keywords for search optimization.',
+    'description' => t('Analize keywords for search optimization.'),
     'page callback' => 'drupal_get_form',
     'page arguments' => array('kwresearch_admin_settings'),
     'access callback' => 'user_access',
@@ -141,7 +141,7 @@ function kwresearch_menu() {
     'type' => MENU_NORMAL_ITEM,
     'file' => 'kwresearch.admin.inc',
   );
-  $items['kwresearch/keyword_tax_report_js'] = array(
+  $items['admin/kwresearch/keyword_tax_report_js'] = array(
     'title' => '',
     'page callback' => 'kwresearch_keywords_tax_report_js',
     'access callback' => 'user_access',
@@ -188,24 +188,20 @@ function kwresearch_menu() {
   return $items;
 }
 
+function kwresearch_admin_paths() {
+  $paths = array(
+    'node/*/kwresearch' => TRUE,
+  );
+  return $paths;
+}
+
 
 /**
  * Testing function
  */
-function kwresearch_util() {
-
-  /*
-  $sql = '
-    DELETE FROM {kwresearch_keyword}
-    WHERE page_count = 0
-      AND (priority IS NULL || priority = 0) 
-  ';
-  db_query($sql);
-  */
-  $query = db_delete('kwresearch_keyword')
-    ->condition('page_count', 0)
-  ;
-  return " " . $query;
+function kwresearch_util($pid) {
+  kwresearch_load_top_page_keyword_by_page($pid);
+  return " ";
 }
     
 /**
@@ -359,8 +355,8 @@ function kwresearch_clear_site_keywords() {
  * Loads site keyword object from databased
  * @param int|string $key if int, treated as a kid. If str treated as a keyword phrase
  */
-function kwresearch_load_site_keyword($key) {
-  if ($key > 0) { // load by kid
+function kwresearch_load_site_keyword($key, $is_kid = TRUE) {
+  if ($is_kid && is_numeric($key) && ($key > 0)) { // load by kid
     $sql = '
       SELECT * 
       FROM {kwresearch_keyword}
@@ -401,11 +397,17 @@ function kwresearch_load_filtered_keyword_result($filter = array(), $options = a
     FROM {kwresearch_keyword} k 
     LEFT JOIN {users} u ON u.uid = k.uid
   ";
-  $query = db_select('kwresearch_keyword', 'k');
+  $query = db_select('kwresearch_keyword', 'k')
+     ->extend('PagerDefault')
+     ->limit($limit);
   $u = $query->leftJoin('users', 'u', '%alias.uid = k.uid');
   $query->fields('k');
-  $query->addField($u, 'name', 'username');
-  $query->extend('PagerDefault')->limit($limit);
+  $query->addField($u, 'name', 'username'); 
+
+  if (module_exists('linkintel')) {
+    $r = $query->leftJoin('linkintel_request', 'r', '%alias.kid = k.kid');
+    $query->addField($r, 'path', 'link_request_path');
+  }
 
   if (!empty($header)) {
   	$query->extend('TableSort')->orderByHeader($header);
@@ -424,7 +426,6 @@ function kwresearch_load_filtered_keyword_result($filter = array(), $options = a
     //$count_sql .=  " WHERE " . (($options['mode'] == 'site') ? 'k.priority >= 0 AND ' : '') .  $filter['where'];
   }
   
-//dsm(" ", $query);
   $result = $query->execute();
 
   return $result;
@@ -499,7 +500,7 @@ function kwresearch_construct_pathnid_obj($pid, $msgs) {
  */
 function kwresearch_save_page_keyword($pid, $keyword, $kid = NULL, $page_keyword_obj = NULL, $update_stats = FALSE, $save_term = FALSE) {
   //kwresearch_save_site_keyword($keyword, $kid = NULL, $keyword_obj = NULL, $update_stats = FALSE)
-
+  $msgs = array();
   if (!is_object($page_keyword_obj)) {
     $page_keyword_obj = new stdClass();
   }
@@ -512,7 +513,7 @@ function kwresearch_save_page_keyword($pid, $keyword, $kid = NULL, $page_keyword
 
   // if site keyword does not exist, create it
 
-  if (!$keyword_obj0->kid) {
+  if (!isset($keyword_obj0->kid) || !$keyword_obj0->kid) {
     $kid = kwresearch_save_site_keyword($keyword);
     $keyword_obj0 = kwresearch_load_site_keyword($kid);
   }
@@ -521,7 +522,7 @@ function kwresearch_save_page_keyword($pid, $keyword, $kid = NULL, $page_keyword
 
   $page_keyword_obj0 = kwresearch_load_page_keyword($pid, $kid);
 
-  if (!$page_keyword_obj->uid) {
+  if (!isset($page_keyword_obj->uid) || !$page_keyword_obj->uid) {
     $page_keyword_obj->uid = ($page_keyword_obj0->uid) ? $page_keyword_obj0->uid : $GLOBALS['user']->uid; // set logged in user as default
 
   }
@@ -533,7 +534,7 @@ function kwresearch_save_page_keyword($pid, $keyword, $kid = NULL, $page_keyword
 
   // page keyword does not exists, create it
 
-  if (!$page_keyword_obj0->kid) {
+  if (!isset($page_keyword_obj0->kid) || !$page_keyword_obj0->kid) {
     $sql = '
       INSERT INTO {kwresearch_page_keyword}
       (kid, nid, path, priority, uid)
@@ -590,6 +591,9 @@ function kwresearch_delete_page_keyword($key, $pid) {
       return FALSE;
     }
   }
+  if (!isset($msgs)) {
+    $msgs = array();
+  }
   $pn = kwresearch_construct_pathnid_obj($pid, $msgs);
   $sql = "
     DELETE FROM {kwresearch_page_keyword}
@@ -637,6 +641,7 @@ function kwresearch_load_page_keyword($pid, $key) {
   $site_keyword_obj = kwresearch_load_site_keyword($key);
   $kid = $site_keyword_obj->kid;
 
+  $msgs = array();
   $pn = kwresearch_construct_pathnid_obj($pid, $msgs);
 
   $sql = "
@@ -711,6 +716,65 @@ function kwresearch_load_page_keywords_by_page($pid) {
 }
 
 /**
+ * Loads an array of page keyword objects associated with a specific page
+ * @param int|str $key Int treated as kid, str as keyword phrase
+ */
+function kwresearch_load_top_page_keyword_by_page($pid) {
+  $keyword = '';
+  $pn = kwresearch_construct_pathnid_obj($pid, $msgs);
+  // if a keyword vocab is used, combine kwresearch page keyword priority and tax field delta to determine order
+  if (isset($pn->nid) && $pn->nid && ($sync_vocab = variable_get('kwresearch_keyword_sync_vocabulary', ''))) {
+    $sync_vocab = variable_get('kwresearch_keyword_sync_vocabulary', '');
+    // determine field used for sync vocabulary
+    $query = db_select('field_config', 'c')
+      ->fields('c');
+    $i = $query->innerJoin('field_config_instance', 'i', '(i.field_id = c.id)');
+    $n = $query->innerJoin('node', 'n', 'n.type = i.bundle');
+    $query->condition('c.type', 'taxonomy_term_reference');
+    $query->condition("{$i}.entity_type", 'node');
+    $query->condition("{$n}.nid", $pn->nid);
+    $result = $query->execute();
+    $field = '';
+    while ($r = $result->fetchObject()) {
+      $data = unserialize($r->data);
+      if ($data['settings']['allowed_values'][0]['vocabulary'] == $sync_vocab) {
+        $field = $r->field_name;
+        break;
+      }
+    }
+    if ($field) {
+      $query = db_select('kwresearch_keyword',  'k')
+        ->fields('k');
+      $pk = $query->innerJoin('kwresearch_page_keyword', 'kp', 'kp.kid = k.kid');
+      $t = $query->innerJoin('taxonomy_term_data', 't', 't.name = k.keyword');
+      $f = $query->innerJoin("field_data_$field", 'f', "f.field_keywords_tid = {$t}.tid");
+      $query->addField($f, 'delta', 'delta');
+      $query->condition("{$f}.entity_id", $pn->nid);
+      $query->orderBy("{$pk}.priority", 'DESC');
+      $query->orderBy("{$f}.delta", 'ASC');
+//dsm(" ".$query. " $pn->nid");
+      $result = $query->execute();
+      $r = $result->fetchObject();
+      $keyword = $r->keyword;
+    }
+  }
+  if (!$keyword) {
+    $query = db_select('kwresearch_keyword',  'k')
+      ->fields('k');
+    $pk = $query->innerJoin('kwresearch_page_keyword', 'kp', 'kp.kid = k.kid');
+    $query->condition('path', $pn->path);
+    $query->orderBy("{$pk}.priority", 'DESC');
+    $query->orderBy("{k}.keyword", 'ASC');
+//dsm(" ".$query);
+    $result = $query->execute();
+    $r = $result->fetchObject();
+    $keyword = $r->keyword;    
+  }
+//dsm($page_keywords);
+  return $keyword;
+}
+
+/**
  * Updates the page_count field in site keyword table
  * @param int $kid - id of keyword
  */
@@ -741,7 +805,7 @@ function kwresearch_update_keyword_page_counts($kid) {
  * returns array of priority options
  */
 function kwresearch_get_priority_options() {
-  return array(
+  $options = array(
     -1 => t('None'),
     0 => t('TBD'),
     10 => t('Very low'),
@@ -750,6 +814,15 @@ function kwresearch_get_priority_options() {
     70 => t('High'),
     90 => t('Top'),
   );
+  if (1) {
+    $options[20] = t('Very low+');
+    $options[40] = t('Low+');
+    $options[60] = t('Standard+');
+    $options[80] = t('High+');
+    $options[100] = t('Top+');
+    ksort($options);
+  }
+  return $options;
 }
 
 
@@ -879,6 +952,8 @@ function kwresearch_analyze_js() {
  * Implements hook_node_insert().
  */
 function kwresearch_node_insert($node) {
+  kwresearch_node_save($node);
+  return;
 	// TODO save added page_keyword saved to as $_SESSION['kwresearch']['node_add']['page_keywords'][$keyword] = $page_keyword_obj;
   if (TRUE || TRUE) {
     //dsm('kwresearch_nodeapi op = update');
@@ -907,10 +982,10 @@ function kwresearch_node_insert($node) {
           list($page_priority, $site_priority, $site_value) = explode(';', $args);
         }
         $term = trim($term);
-        if (!$page_keyword_obj) {
+        if (!isset($page_keyword_obj) || !$page_keyword_obj) {
           $page_keyword_obj = new stdClass();
 
-          if ($page_priority) {
+          if (isset($page_priority) && $page_priority) {
             $page_keyword_obj->priority = $page_priority;
             $needs_filtering = 1;
           }
@@ -949,67 +1024,68 @@ function kwresearch_node_insert($node) {
  * Implements hook_node_update().
  */
 function kwresearch_node_update($node) {
-  if (TRUE || TRUE) {
-    //dsm('kwresearch_nodeapi op = update');
+  kwresearch_node_save($node);
+}
 
-    static $vocab_filtered = FALSE;
+function kwresearch_node_save($node) {
+  static $vocab_filtered = FALSE;
 
-    if (!$kw_vid = variable_get('kwresearch_keyword_sync_vocabulary', 0)) {
-      return;
-    }
-    $processed = array();
-    $page_keywords = kwresearch_load_page_keywords_by_page($node->nid);
-    foreach ($page_keywords as $page_keyword) {
-      $processed[$page_keyword->kid] = 0;
-    }
+  if (!$kw_vid = $node->kwresearch_sync_vocab) {
+    return;
+  }
+  $processed = array();
+  $page_keywords = kwresearch_load_page_keywords_by_page($node->nid);
+  foreach ($page_keywords as $page_keyword) {
+    $processed[$page_keyword->kid] = 0;
+  }
+  
+  $terms = array();
+  if (!empty($node->{$kw_vid}[$node->language])) {
+    $terms = $node->{$kw_vid}[$node->language];
+  }
+  $node_terms_str = '';
+  $needs_filtering = 1;
+  if (is_array($terms)) {
+    foreach ($terms as $t) {
+      //$page_priority = $site_priority = $site_value = FALSE;
+     // list($term, $args) = explode('[', $term);
+      //if (substr($args, -1) == ']') {
+       // $args = substr($args, 0, -1);
+      //  list($page_priority, $site_priority, $site_value) = explode(';', $args);
+      //}
+      $term = trim($t['name']);
+      if (!isset($page_keyword_obj) || !$page_keyword_obj) {
+        $page_keyword_obj = new stdClass();
 
-    $terms_str = $node->taxonomy['tags'][$kw_vid];
-    $terms = explode(',', $terms_str);
-    $node_terms_str = '';
-    $needs_filtering = 1;
-    if (is_array($terms)) {
-      foreach ($terms as $term) {
-        $page_priority = $site_priority = $site_value = FALSE;
-        list($term, $args) = explode('[', $term);
-        if (substr($args, -1) == ']') {
-          $args = substr($args, 0, -1);
-          list($page_priority, $site_priority, $site_value) = explode(';', $args);
+        if (isset($page_priority) && $page_priority) {
+          $page_keyword_obj->priority = $page_priority;
+          $needs_filtering = 1;
         }
-        $term = trim($term);
-        if (!$page_keyword_obj) {
-          $page_keyword_obj = new stdClass();
-
-          if ($page_priority) {
-            $page_keyword_obj->priority = $page_priority;
-            $needs_filtering = 1;
-          }
-          else {
-            $page_keyword_obj->priority = 50;
-          }
+        else {
+          $page_keyword_obj->priority = 50;
         }
-        $kid = kwresearch_save_page_keyword($node->nid, $term, NULL, $page_keyword_obj);
-        $processed[$kid] = 1;
-        $node_terms_str .= (($node_terms_str) ? ',' : '') . $term;
       }
+      $kid = kwresearch_save_page_keyword($node->nid, $term, NULL, $page_keyword_obj);
+      $processed[$kid] = 1;
+      $node_terms_str .= (($node_terms_str) ? ',' : '') . $term;
     }
-    // save filtered taxonomy
+  }
+  // save filtered taxonomy
 
-    if (!$vocab_filtered && $needs_filtering) {
-      $vocab_filtered = TRUE;
-      $node->taxonomy['tags'][$kw_vid] = $node_terms_str;
-      node_save($node);
+  //if (!$vocab_filtered && $needs_filtering) {
+  //  $vocab_filtered = TRUE;
+  //  $node->taxonomy['tags'][$kw_vid] = $node_terms_str;
+  //  node_save($node);
+  //}
+  // delete keywords not submitted
 
-    }
-    // delete keywords not submitted
+  //$page_keywords = kwresearch_load_page_keywords_by_page($node->nid);
 
-    //$page_keywords = kwresearch_load_page_keywords_by_page($node->nid);
-
-    $page_keyword_obj = new stdClass();
-    $page_keyword_obj->priority = 0;
-    foreach ($processed as $kid => $v) {
-      if (!$v) {
-        kwresearch_delete_page_keyword($kid, $node->nid);
-      }
+  $page_keyword_obj = new stdClass();
+  $page_keyword_obj->priority = 0;
+  foreach ($processed as $kid => $v) {
+    if (!$v) {
+      kwresearch_delete_page_keyword($kid, $node->nid);
     }
   }
 }
@@ -1042,15 +1118,107 @@ function kwresearch_form_alter(&$form, $form_state, $form_id) {
   if (isset($form['type']['#value']) && ($form['type']['#value'] . '_node_form' == $form_id)) {
     //dsm(variable_get('kwresearch_report_vocabulary', ''));
 
+    $node = $form['#node'];
+    
     require_once DRUPAL_ROOT . '/' . drupal_get_path('module', 'kwresearch') . "/includes/tax_report.inc";
 
     drupal_add_css(drupal_get_path('module', 'kwresearch') . '/kwresearch.css');
     drupal_add_js(drupal_get_path('module', 'kwresearch') . '/kwresearch.js');
+   // drupal_add_js(drupal_get_path('module', 'kwresearch') . '/kwresearch.verticle-tabs.js');
 
     $report_vocabs = variable_get('kwresearch_report_vocabulary', array());
     $sync_vocab = variable_get('kwresearch_keyword_sync_vocabulary', '');
     $weight = 0;
     $img = base_path() . '/' . drupal_get_path('module', 'contentanalysis') . '/icons/refresh.png';
+    $js = array(
+      'kwresearch' => array(
+        'tax_report_callback' => base_path() . 'admin/kwresearch/keyword_tax_report_js',
+        'tax_report_vocabs' => array(drupal_clean_css_identifier($sync_vocab)),
+        'base_path' => base_path(),
+        'path_to_module' => base_path() . drupal_get_path('module', 'kwresearch'),
+      )
+    );
+    foreach ($form AS $id => $field) {
+      // look for fields
+      if ((substr($id, 0, 6) == 'field_') && ($field['#attributes']['class'][0] == 'field-type-taxonomy-term-reference')) {
+//dsm("found: $id");   
+        $fi = field_info_field($id);
+//dsm($fi);
+//dsm($sync_vocab); 
+        if ($fi['settings']['allowed_values'][0]['vocabulary'] == $sync_vocab) {
+//dsm("Go: $id")
+
+          
+          $terms = array();
+          $ts = explode(',', $field[$node->language]['#default_value']);
+          foreach ($ts as $term) {
+            $t = trim($term);
+            $terms[$t] = $t;
+          }
+//dsm($terms);
+          $page_keywords = kwresearch_load_page_keywords_by_page($form['nid']['#value']);
+          foreach ($page_keywords as $keyword_obj) {
+            if (!$terms[$keyword_obj->keyword]) {
+              $form[$id][$node->language]['#default_value'] .= (($form[$id][$node->language]['#default_value']) ? ', ' : '') . $keyword_obj->keyword;
+            }
+          }          
+          $keywords = $form[$id][$node->language]['#default_value'];
+          // move field to additional settings group 
+          $form['kwresearch'] = array(
+            '#type' => 'fieldset',
+            '#title' => t('Keywords'),
+            '#colapsible' => TRUE,
+            '#collapsed' => FALSE,
+            '#group' => 'additional_settings',
+            '#weight' => -89,
+          );
+          $form['kwresearch'][$id] = $form[$id];
+          $form['kwresearch'][$id]['#weight'] = -1;
+          unset($form[$id]);
+          $form['kwresearch']['kwresearch_sync_vocab'] = array(
+            '#type' => 'value',
+            '#value' => $id,
+          );
+          $form['kwresearch'][$id]['report'] = array(
+            '#type' => 'item',
+            '#title' => t('Keyword report'),
+            '#markup' => kwresearch_keywords_tax_report($keywords),
+            '#prefix' => '<div id="kwresearch-tax-report-' . drupal_clean_css_identifier($sync_vocab) . '" class="kwresearch-tax-report kwresearch-tax-report-' . drupal_clean_css_identifier($sync_vocab) . '">',
+            '#suffix' => '</div>',
+            '#weight' => 1,
+          );
+          $js['kwresearch']['sync_vocab_field'] = drupal_clean_css_identifier("$id-" . $node->language);
+          // Only support vertical tabs if there is a vertical tab element.
+          foreach (element_children($form) as $key) {
+            if (isset($form[$key]['#type']) && $form[$key]['#type'] == 'vertical_tabs') {
+              $form['kwresearch']['#group'] = $key;
+              $form['kwresearch']['#attached']['js']['vertical-tabs'] = drupal_get_path('module', 'kwresearch') . '/kwresearch.vertical-tabs.js';
+              break;
+            }
+          }
+        }
+        /*
+        $js = array(
+          'kwresearch' => array(
+            'tax_report_callback' => base_path() . 'admin/kwresearch/keyword_tax_report_js',
+            'tax_report_vocabs' => array(drupal_clean_css_identifier($sync_vocab)),
+            'base_path' => base_path(),
+            'path_to_module' => base_path() . drupal_get_path('module', 'kwresearch'),
+            'sync_vocab_field' => drupal_clean_css_identifier("$id-" . $node->language),
+          )
+        );
+        */
+
+      }
+
+    } 
+      drupal_add_js($js, array('type' => 'setting', 'scope' => JS_DEFAULT));
+//dsm($form);  
+    return;
+    
+    //******************
+    // TODO implement tax reports from D6 version
+
     if (isset($form['taxonomy']['tags']) && is_array($form['taxonomy']['tags'])) {
       foreach ($form['taxonomy']['tags'] as $vid => $tf) {
         $form['taxonomy']['tags'][$vid]['#weight'] = $weight++;
@@ -1087,12 +1255,13 @@ function kwresearch_form_alter(&$form, $form_state, $form_id) {
     }
     drupal_add_js(
     array('kwresearch' => array(
-        'tax_report_callback' => base_path() . 'kwresearch/keyword_tax_report_js',
+        'tax_report_callback' => base_path() . 'admin/kwresearch/keyword_tax_report_js',
         'tax_report_vocabs' => $report_vocabs,
         'base_path' => base_path(),
         'path_to_module' => base_path() . drupal_get_path('module', 'kwresearch'),
       )), array('type' => 'setting', 'scope' => JS_DEFAULT));
   }
+//dsm($form);
 }
 
 /**

@@ -40,14 +40,12 @@ function kwresearch_keyword_stats_report_page($keyword = NULL) {
   $output .= render(drupal_get_form('kwresearch_stats_report_form', $analysis));
 
   //$output = t('Content Analysis.');
-
   if ($analysis) {
     $output .= '<div id="kwresearch-popularity-analysis" style="clear: both;">';
     $output .= '<h3>' . t('Analysis') . '</h3>';
     $output .= theme_keyword_stats_report($analysis);
     $output .= '</div>';
     // initialize kw data array for javascript
-
     if (is_array($analysis['analysis'])) {
       foreach ($analysis['analysis'] as $kw => $v) {
       	if(isset($v['term'])) {
@@ -61,6 +59,8 @@ function kwresearch_keyword_stats_report_page($keyword = NULL) {
       }
     }
   }
+  
+  
 
   $site_priority_options = kwresearch_get_priority_options();
   drupal_add_js(
@@ -234,7 +234,7 @@ function theme_keyword_stats_report($analysis) {
   // TODO: Should this theme keyword_stats_report be declared in hook_theme()?
   //dsm(func_get_args());
 
-
+  $count = 0;
   if (!$analysis['analysis']) {
 
     if (!is_array($analysis['inputs']['keyword'])) {
@@ -280,7 +280,6 @@ function theme_keyword_stats_report($analysis) {
   $rows = array();
   if (is_array($analysis['analysis']) && !empty($analysis['analysis'])) {
     foreach ($analysis['analysis'] as $keyword => $values) {
-
       $row = array();
       $row[] = kwresearch_format_report_data_value(array('term' => $keyword));
       foreach ($data_options as $k => $v) {
@@ -327,10 +326,13 @@ function theme_keyword_stats_report($analysis) {
     'class' => array('kwresearch-result-table'),
   );
   $output = '<div id="kwresearch-result-block-' . check_plain(str_replace(' ', '-', $analysis['inputs']['keyword'])) . '" class="kwresearch-result-block">';
+  $empty = t('No keywords were found.');
+
   $vars = array(
     'header' => $hdrs,
     'rows' => $rows,
     'attributes' => $attr,
+    'empty' => $empty,
   );
   $output .= theme('table', $vars);
   if (!empty($analysis['messages'])) {
@@ -342,6 +344,18 @@ function theme_keyword_stats_report($analysis) {
     $output .= '<div>' . $footer . '</div>';
   }
   $output .= "</div>";
+  
+  $a = array(
+    'attributes' => array('target' => '_blank'),
+  );
+  $output .= t('For more keywords try the !google_keyword_tool.', 
+    array(
+      '!google_keyword_tool' => l(t('Google Keyword Tool'), 'https://adwords.google.com/o/KeywordTool', array('attributes' => array('target' => 'google_keyword_tool'))),
+    )
+  );
+  if (module_exists('kwresearch_google')) {
+    $output .= ' ' . l(t('Import Google Keyword Tool data'), 'admin/structure/kwresearch/keyword_list/import_google', array('attributes' => array('target' => 'kwresearch_google_import')));
+  }
 
   return $output;
 }

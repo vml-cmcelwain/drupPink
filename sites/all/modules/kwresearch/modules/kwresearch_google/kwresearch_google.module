@@ -129,15 +129,19 @@ function kwresearch_google_keywords_import_form_submit($form, &$form_state) {
 
 
     //$data = ltrim($data, "\xFF\xFE");
-
     $data = mb_convert_encoding($data, "UTF-8", "UCS-2");
 
     $a = explode("\t", $data);
     foreach ($a as $i => $v) {
       $a[$i] = trim($a[$i]);
     }
-    if ((strpos($a[0], t('Keyword')) != FALSE) && ($a[2] == t('Global Monthly Searches')) && (strpos($a[3], 'Local Monthly Searches') === 0)) {
+    if ((strpos($a[0], t('Keyword')) !== FALSE) && ($a[2] == t('Global Monthly Searches')) && (strpos($a[3], 'Local Monthly Searches') === 0)) {
       $format = 'adwords';
+      $col_count = count($a);
+      $bid_enabled = FALSE;
+      if (isset($a[4]) && (strpos($a[4],  'Approximate CPC')) === 0) {
+      	$bid_enabled = TRUE;
+      }
     }
     elseif (($a[0] == t('Keyword')) && ($a[1] == t('Monthly searches'))) {
       $format = 'sktool';
@@ -151,21 +155,31 @@ function kwresearch_google_keywords_import_form_submit($form, &$form_state) {
 
 
       $data = mb_convert_encoding($data, "UTF-8", "UCS-2");
+      $data = trim($data);
       //echo "$data<br />\n"; continue;
 
       if ($format == 'adwords') {
+
         $keyword = '';
         $competition = 0;
         $global_monthly = 0;
         $local_monthly = 0;
+        $avg_cpc = NULL;
         $cols = explode("\t", $data);
-        if (count($cols) != 4) {
+        if (count($cols) != $col_count) {
         	continue;
+        }
+        // skip entry if invalid data
+        if (!is_numeric($cols[1]) || !is_numeric($cols[2]) || !is_numeric($cols[3])) {
+          continue;
         }
         $keyword = $cols[0];
         $competition = $cols[1];
         $global_monthly = $cols[2];
         $local_monthly = $cols[3];
+        if ($bid_enabled) {
+        	$avg_cpc = $cols[4];
+        }
         $monthly_searches = $local_monthly;
       }
       elseif ($format == 'sktool') {
@@ -178,7 +192,7 @@ function kwresearch_google_keywords_import_form_submit($form, &$form_state) {
       }
       $competition *= 100;
       if(isset($avg_cpc) && $avg_cpc) {
-        $avg_cpc = substr($avg_cpc, 1);
+        $avg_cpc = (float) substr($avg_cpc, 1);
       }
       else {
       	$avg_cpc = 0.0;
